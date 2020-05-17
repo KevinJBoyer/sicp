@@ -103,4 +103,4 @@
 
   (queen-cols board-size))
 
-(queens 5)
+(queens 8)
