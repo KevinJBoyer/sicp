@@ -47,7 +47,7 @@
        (lambda (x y) (= (* (numer y) (denom x)) (* (numer x) (denom y)))))
   
   (put '=zero? '(rational) (lambda (x) (= 0 (numer x))))
- 
+  
   (put 'make 'rational
        (lambda (n d) (tag (make-rat n d)))))
 

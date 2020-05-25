@@ -11,10 +11,10 @@
 (define (magnitude z) (apply-generic 'magnitude z))
 (define (angle z) (apply-generic 'angle z))
 
-(define (make-from-real-imag x y)
+(define (make-complex-from-real-imag x y)
   ((get 'make-from-real-imag 'complex) x y))
 
-(define (make-from-mag-ang r a)
+(define (make-complex-from-mag-ang r a)
   ((get 'make-from-mag-ang 'complex) r a))
 
 (define (install-complex-package)
@@ -76,8 +76,8 @@
 
 (install-complex-package)
 
-(#%provide make-from-real-imag)
-(#%provide make-from-mag-ang)
+(#%provide make-complex-from-real-imag)
+(#%provide make-complex-from-mag-ang)
 
 (#%provide real-part)
 (#%provide imag-part)

@@ -42,9 +42,12 @@
 
 ;;;;;
 
-(define (type-tag x) (if (number? x) 'scheme-number (car x)))
+(define (type-tag x) (if (number? x) 'integer (car x)))
 (define (contents x) (if (number? x) x (cdr x)))
-(define (attach-tag tag item) (if (number? item) item (cons tag item)))
+(define (attach-tag tag item)
+  (if (and (number? item) (not (equal? tag 'real)))
+      item
+      (cons tag item)))
 
 (#%provide contents)
 (#%provide type-tag)
