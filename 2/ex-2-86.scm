@@ -293,5 +293,5 @@
 
 ;;;;
 
-(add (make-complex-from-real-imag 1 0)
-     (make-complex-from-real-imag 2 0))
+(add (make-complex-from-real-imag (make-scheme-number 13) (make-rational 1 2))
+     (make-complex-from-real-imag (make-scheme-number -5) (make-scheme-number 0)))
