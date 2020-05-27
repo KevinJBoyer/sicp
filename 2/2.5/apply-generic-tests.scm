@@ -28,8 +28,8 @@
       (make-complex-from-real-imag 5 5))
 
 (test "apply-generic add real rational"
-      (add (make-real 2.2) (make-rational 5 2))
-      (make-real 4.7))
+      (add (make-real 2.200007) (make-rational 5 2))
+      (make-real 4.700006999999999))
 
 (test "apply-generic drop"
       (drop (make-complex-from-real-imag 3.141592 3))
@@ -46,3 +46,11 @@
 (test "apply-generic drop"
       (drop (make-complex-from-real-imag 3 0))
       (make-integer 3))
+
+(test "apply-generic drop"
+      (drop (make-rational 11 1))
+      (make-integer 11))
+
+(test "apply-generic drop"
+      (drop (make-integer 5))
+      (make-integer 5))

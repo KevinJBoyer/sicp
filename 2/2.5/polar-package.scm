@@ -1,15 +1,16 @@
 #lang sicp
 
 (#%require "type-table.scm")
+(#%require "arithmetic-system.scm")
 
 (define (install-polar-package)
   (define magnitude car)
   (define angle cdr)
   (define make-from-mag-ang cons)
-  (define (real-part z) (* (magnitude z) (cos (angle z))))
-  (define (imag-part z) (* (magnitude z) (sin (angle z))))
+  (define (real-part z) (mul (magnitude z) (cosine (angle z))))
+  (define (imag-part z) (mul (magnitude z) (sine (angle z))))
   (define (make-from-real-imag x y)
-    (cons (sqrt (+ (* x x) (* y y))) (atan y x)))
+    (cons (square-root (add (mul x x) (mul y y))) (atangen y x)))
 
   (define (tag x) (attach-tag 'polar x))
 

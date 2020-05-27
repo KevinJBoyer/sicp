@@ -19,11 +19,13 @@
       x))
 
 (define (apply-generic op . args)
-
+  ;(display "apply-generic: ")(display op)(display " ")(display args)(newline)
   (let ((type-tags (map type-tag args)))
     (let ((proc (get op type-tags)))
       (if proc
-          (apply proc (map contents args))
+          (if (or (eq? op 'project) (eq? op 'raise))
+              (apply proc (map contents args))
+              (drop (apply proc (map contents args))))
           (if (and (= 2 (length args))
                    (not (and (= 0 (level (car args)))
                              (= 0 (level (cadr args))))))

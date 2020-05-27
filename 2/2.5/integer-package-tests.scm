@@ -17,3 +17,8 @@
 (test "integer equ?" (equ? int1 9) true)
 (test "integer =zero?" (=zero? int1) false)
 (test "integer =zero?" (=zero? 0) true)
+
+(test "rational sine" (sine int1) (make-integer 0.4121184852417566))
+(test "rational cosine" (cosine int1) (make-integer -0.9111302618846769))
+(test "rational square-root" (square-root int1) 3)
+(test "rational atangen" (atangen int1 int2) (make-integer (atan 9 3)))

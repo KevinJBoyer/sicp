@@ -17,7 +17,6 @@
 (put 'raise '(real)
      (lambda (real) (make-complex-from-real-imag real 0)))
 
-
 (put 'project '(rational)
      (lambda (rat) (make-integer (round (/ (car rat) (cdr rat))))))
 

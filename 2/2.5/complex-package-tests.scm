@@ -42,3 +42,25 @@
 (test "complex equ?" (equ? complex2 complex2) true)
 (test "complex =zero?" (=zero? complex1) false)
 (test "rational =zero?" (=zero? (make-complex-from-real-imag 0 0)) true)
+
+; tests for complex numbers made of other kinds of numbers
+
+(#%require "integer-package.scm")
+(#%require "rational-package.scm")
+(#%require "real-package.scm")
+
+(define complex-rect-rat-real1 (make-complex-from-real-imag (make-rational 3 5) (make-real 4.14159265)))
+(define complex-polar-integer-rat1 (make-complex-from-mag-ang (make-integer 6) (make-rational 2 3)))
+(define complex-polar-integer-rat2 (make-complex-from-mag-ang (make-integer 2) (make-rational 1 3)))
+
+(test "complex make-from-real-imag rational real"
+      complex-rect-rat-real1
+      (cons 'complex (cons 'rectangular (cons (cons 'rational (cons 3 5)) (cons 'real 4.14159265)))))
+
+(test "complex make-from-mag-ang integer rational"
+      complex-polar-integer-rat1
+      (cons 'complex (cons 'polar (cons 6 (cons 'rational (cons 2 3))))))
+
+(test "complex polar int rat div"
+      (div complex-polar-integer-rat1 complex-polar-integer-rat2)
+      (cons 'complex (cons 'polar (cons 3 (cons 'rational (cons 1 3))))))

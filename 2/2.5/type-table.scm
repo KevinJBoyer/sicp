@@ -42,7 +42,11 @@
 
 ;;;;;
 
-(define (type-tag x) (if (number? x) 'integer (car x)))
+(define (type-tag x)
+  (cond ((number? x) 'integer)
+        ((eq? #false x) 'bool)
+        ((eq? #true x) 'bool)
+        (else (car x))))
 (define (contents x) (if (number? x) x (cdr x)))
 (define (attach-tag tag item)
   (if (and (number? item) (not (equal? tag 'real)))

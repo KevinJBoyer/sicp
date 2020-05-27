@@ -47,7 +47,26 @@
        (lambda (x y) (= (* (numer y) (denom x)) (* (numer x) (denom y)))))
   
   (put '=zero? '(rational) (lambda (x) (= 0 (numer x))))
-  
+
+  ; these need to be fixed
+  (put 'sine '(rational)
+       (lambda (x) (tag (make-rat
+                         (* 100 (sin (/ (numer x) (denom x))))
+                         100))))
+  (put 'cosine '(rational)
+       (lambda (x) (tag (make-rat
+                         (* 100 (cos (/ (numer x) (denom x))))
+                         100))))
+  (put 'square-root '(rational)
+       (lambda (x) (tag (make-rat
+                         (* 100 (sqrt (/ (numer x) (denom x))))
+                         100))))
+  (put 'atangen '(rational rational)
+       (lambda (x y) (tag (make-rat
+                         (* 100 (atan (/ (numer x) (denom x))
+                                      (/ (numer y) (denom y))))
+                         100))))
+
   (put 'make 'rational
        (lambda (n d) (tag (make-rat n d)))))
 

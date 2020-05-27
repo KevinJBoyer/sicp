@@ -8,7 +8,7 @@
          (display "expected: ")
          (display expected)
          (newline)
-         (display "got: ")
+         (display "     got: ")
          (display got)
          (newline)
          (newline))))

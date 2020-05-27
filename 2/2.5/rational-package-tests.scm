@@ -17,3 +17,8 @@
 (test "rational equ?" (equ? rat1 (make-rational 4 10)) true)
 (test "rational =zero?" (=zero? rat1) false)
 (test "rational =zero?" (=zero? (make-rational 0 5)) true)
+
+(test "rational sine" (sine rat1) (make-rational 1370143985400371.0 3.5184372088832e+15))
+(test "rational cosine" (cosine rat1) (make-rational 3240695272950697.0 3.5184372088832e+15))
+(test "rational square-root" (square-root rat1) (make-rational 8901020307485223.0 1.40737488355328e+16))
+(test "rational atangen" (atangen rat1 rat2) (make-rational (atan (/ 2 5) (/ 3 7)) 1))

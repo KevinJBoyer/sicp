@@ -1,5 +1,16 @@
 #lang sicp
 
+(#%require "type-table.scm")
+(#%require "apply-generic.scm")
+(#%require "coercion.scm")
+(#%require "arithmetic-system.scm")
+(#%require "integer-package.scm")
+(#%require "rational-package.scm")
+(#%require "real-package.scm")
+(#%require "rectangular-package.scm")
+(#%require "polar-package.scm")
+(#%require "complex-package.scm")
+
 (#%require "integer-package-tests.scm")
 (#%require "rational-package-tests.scm")
 (#%require "real-package-tests.scm")

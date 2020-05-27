@@ -23,6 +23,11 @@
        (lambda (x y) (= x y)))
 
   (put '=zero? '(integer) (lambda (x) (= 0 x)))
+
+  (put 'sine '(integer) (lambda (x) (tag (sin x))))
+  (put 'cosine '(integer) (lambda (x) (tag (cos x))))
+  (put 'square-root '(integer) (lambda (x) (tag (sqrt x))))
+  (put 'atangen '(integer integer) (lambda (x y) (tag (atan x y))))
   
   (put 'make 'integer (lambda (x) (tag x))))
 
