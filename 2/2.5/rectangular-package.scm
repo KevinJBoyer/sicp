@@ -11,7 +11,7 @@
     (sqrt (add (mul (real-part z) (real-part z))
                (mul (imag-part z) (imag-part z)))))
   (define (angle z)
-    (atan (imag-part z) (real-part z)))
+    (atangen (imag-part z) (real-part z)))
   (define (make-from-mag-ang r a)
     (cons (mul r (cosine a)) (mul r (sine a))))
 
