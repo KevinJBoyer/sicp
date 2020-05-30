@@ -11,6 +11,7 @@
 (#%require "polar-package.scm")
 (#%require "complex-package.scm")
 (#%require "sparse-terms.scm")
+(#%require "dense-terms.scm")
 (#%require "poly-package.scm")
 
 (#%require "integer-package-tests.scm")
@@ -21,7 +22,6 @@
 (#%require "complex-package-tests.scm")
 (#%require "apply-generic-tests.scm")
 (#%require "coercion-tests.scm")
-;(#%require "sparse-terms-tests.scm")
 (#%require "poly-package-tests.scm")
 
 
