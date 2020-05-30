@@ -2,7 +2,7 @@
 
 (#%require "test-func.scm")
 
-(#%require "terms.scm")
+(#%require "sparse-terms.scm")
 
 (test "terms the-empty-termlist" (the-empty-termlist) '())
 (test "terms make-term" (make-term 5 6) (list 5 6))
