@@ -27,6 +27,10 @@
       (project (make-complex-from-real-imag 3.14 -2))
       (make-real 3.14))
 
+(test "coercion raise complex"
+      (raise (make-complex-from-real-imag (make-real 3.14) (make-real 2.1)))
+      '(poly x (0 (complex rectangular (real . 3.14) real . 2.1))))
+
 (test "coercion project real"
       (project (make-real 3.14))
       (make-rational 157.0 50.0))

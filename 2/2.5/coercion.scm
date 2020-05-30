@@ -7,6 +7,7 @@
 (#%require "real-package.scm")
 (#%require "rational-package.scm")
 (#%require "complex-package.scm")
+(#%require "poly-package.scm")
 
 (put 'raise '(integer)
      (lambda (int) (make-rational int 1)))
@@ -16,6 +17,9 @@
 
 (put 'raise '(real)
      (lambda (real) (make-complex-from-real-imag real 0)))
+
+(put 'raise '(complex)
+     (lambda (complex) (make-polynomial 'x (list (list 0 (cons 'complex complex))))))
 
 (put 'project '(rational)
      (lambda (rat) (make-integer (round (/ (car rat) (cdr rat))))))

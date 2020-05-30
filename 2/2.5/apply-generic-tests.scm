@@ -7,21 +7,25 @@
 (#%require "rational-package.scm")
 (#%require "real-package.scm")
 (#%require "complex-package.scm")
+(#%require "poly-package.scm")
 (#%require "coercion.scm")
 
 (#%require "test-func.scm")
 
 (test "appy-generic level integer"
-      (level (make-integer 5)) 3)
+      (level (make-integer 5)) 4)
 
 (test "appy-generic level rational"
-      (level (make-rational 2 5)) 2)
+      (level (make-rational 2 5)) 3)
 
 (test "appy-generic level real"
-      (level (make-real 5.1)) 1)
+      (level (make-real 5.1)) 2)
 
 (test "appy-generic level complex"
-      (level (make-complex-from-real-imag 1 2)) 0)
+      (level (make-complex-from-real-imag 1 2)) 1)
+
+(test "appy-generic level poly"
+      (level (make-polynomial 'x '(0 1))) 0)
 
 (test "apply-generic add integer complex"
       (add (make-integer 2) (make-complex-from-real-imag 3 5))

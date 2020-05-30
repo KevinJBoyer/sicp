@@ -10,6 +10,8 @@
 (#%require "rectangular-package.scm")
 (#%require "polar-package.scm")
 (#%require "complex-package.scm")
+(#%require "terms.scm")
+(#%require "poly-package.scm")
 
 (#%require "integer-package-tests.scm")
 (#%require "rational-package-tests.scm")
@@ -19,5 +21,8 @@
 (#%require "complex-package-tests.scm")
 (#%require "apply-generic-tests.scm")
 (#%require "coercion-tests.scm")
+(#%require "terms-tests.scm")
+(#%require "poly-package-tests.scm")
+
 
 (display "done")
