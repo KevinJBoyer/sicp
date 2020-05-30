@@ -50,3 +50,10 @@
 (test "poly mul dense" (mul poly7 poly5) (make-polynomial 'z (make-terms-from-dense '())))
 (test "poly mul dense" (mul poly5 poly6) poly8)
 (test "poly mul dense" (mul poly6 poly5) poly8)
+
+(test "poly div sparse"
+      (div (make-polynomial 'x (make-terms-from-sparse '((5 1) (0 -1))))
+           (make-polynomial 'x (make-terms-from-sparse '((2 1) (0 -1)))))
+      (list
+       (make-polynomial 'x (make-terms-from-sparse '((3 1) (1 1))))
+       (make-polynomial 'x (make-terms-from-sparse '((1 1) (0 -1))))))

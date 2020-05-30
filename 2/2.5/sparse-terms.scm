@@ -25,6 +25,8 @@
                                 (mul -1 (coeff (first-term term-list))))
                      (neg-termlist (rest-terms term-list)))))
 
+  (define (sub-terms L1 L2) (add-terms L1 (neg-termlist L2)))
+  
   (define (add-terms L1 L2)
     (cond ((empty-termlist? L1) L2)
           ((empty-termlist? L2) L1)
@@ -57,11 +59,38 @@
            (make-term (+ (order t1) (order t2))
                       (mul (coeff t1) (coeff t2)))
            (mul-term-by-all-terms t1 (rest-terms L))))))
+
+  (define (div-terms L1 L2)
+    (if (empty-termlist? L1)
+        (list (the-empty-termlist) (the-empty-termlist))
+        (let ((t1 (first-term L1))
+              (t2 (first-term L2)))
+          (if (> (order t2) (order t1))
+              (list (the-empty-termlist) L1)
+              (let ((new-c (div (coeff t1) (coeff t2)))
+                    (new-o (- (order t1) (order t2))))
+                (let ((rest-of-result
+                       (div-terms
+                        (sub-terms L1
+                                   (mul-term-by-all-terms (make-term new-o new-c) L2))
+                        L2)
+                       ))
+                  (list
+                   (adjoin-term (make-term new-o new-c) (car rest-of-result))
+                   (cadr rest-of-result)
+                   )))))))
   
   (define (tag x) (attach-tag 'sparse-terms x))
 
   (put 'add-terms '(sparse-terms sparse-terms) (lambda (L1 L2) (tag (add-terms L1 L2))))
   (put 'mul-terms '(sparse-terms sparse-terms) (lambda (L1 L2) (tag (mul-terms L1 L2))))
+  (put 'div-terms '(sparse-terms sparse-terms)
+       (lambda (L1 L2)
+         (list
+          (tag (car (div-terms L1 L2)))
+          (tag (cadr (div-terms L1 L2)))
+
+         )))
   (put 'neg-termlist '(sparse-terms) (lambda (L) (tag (neg-termlist L))))
   (put 'empty-termlist? '(sparse-terms) (lambda (L) (empty-termlist? L)))
   (put 'make 'sparse-terms (lambda (L) (tag L))))

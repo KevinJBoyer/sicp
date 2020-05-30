@@ -32,6 +32,13 @@
                    (mul-terms (term-list p1) (term-list p2)))
         (error "Polys not in same var: MUL-POLY" (list p1 p2))))
   
+  (define (div-poly p1 p2)
+    (if (same-variable? (variable p1) (variable p2))
+        (let ((resultant (div-terms (term-list p1) (term-list p2))))
+          (list (tag (make-poly (variable p1) (car resultant)))
+                (tag (make-poly (variable p1) (cadr resultant)))))
+        (error "Polys not in same var: DIV-POLY" (list p1 p2))))
+  
   (define (tag x) (attach-tag 'poly x))
 
 
@@ -45,6 +52,8 @@
        (lambda (p1 p2) (tag (sub-poly p1 p2))))
   (put 'mul '(poly poly)
        (lambda (p1 p2) (tag (mul-poly p1 p2))))
+  (put 'div '(poly poly)
+       (lambda (p1 p2) (div-poly p1 p2)))
   
   (put 'make 'poly
        (lambda (var terms) (tag (make-poly var terms)))))
