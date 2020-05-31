@@ -10,8 +10,8 @@
   (define numer car)
   (define denom cdr)
   (define (make-rat n d)
-    (let ((g (gcd n d)))
-      (cons (div n g) (div d g))))
+    (let ((reduced (reduce n d)))
+      (cons (car reduced) (cadr reduced))))
 
   (define (add-rat x y)
     (make-rat (add (mul (numer x) (denom y))

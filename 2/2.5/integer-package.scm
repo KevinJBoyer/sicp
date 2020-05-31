@@ -11,6 +11,11 @@
   (define (tag x) (attach-tag 'integer x))
 
   ; external
+
+  (put 'reduce '(integer integer)
+       (lambda (n d)
+         (let ((g (gcd n d)))
+           (list (/ n g) (/ d g)))))
   
   (put 'add '(integer integer)
        (lambda (x y) (tag (make-int (+ x y)))))
@@ -22,7 +27,6 @@
        (lambda (x y) (tag (make-int (/ x y)))))
   (put 'gcd '(integer integer)
        (lambda (x y) (gcd x y)))
-         ;(tag (make-int (gcd x y)))))
 
   (put 'equ? '(integer integer)
        (lambda (x y) (= x y)))

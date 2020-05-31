@@ -55,6 +55,12 @@
           curr-gcd
           (gcd-list (cdr remaining-items) (gcd (car remaining-items) curr-gcd))))
      (gcd-list L (car L)))
+
+
+  (define (reduce-terms L1 L2)
+    (let ((gcd-of-terms (gcd-terms L1 L2)))
+      (list (car (div-terms L1 gcd-of-terms))
+            (car (div-terms L2 gcd-of-terms)))))
   
     (define (add-terms L1 L2)
       (cond ((empty-termlist? L1) L2)
@@ -111,6 +117,7 @@
   
     (define (tag x) (attach-tag 'sparse-terms x))
 
+    (put 'reduce '(sparse-terms sparse-terms) (lambda (L1 L2) (map tag (reduce-terms L1 L2))))
     (put 'add-terms '(sparse-terms sparse-terms) (lambda (L1 L2) (tag (add-terms L1 L2))))
     (put 'mul-terms '(sparse-terms sparse-terms) (lambda (L1 L2) (tag (mul-terms L1 L2))))
     (put 'gcd-terms '(sparse-terms sparse-terms) (lambda (L1 L2) (tag (gcd-terms L1 L2))))

@@ -14,6 +14,13 @@
 
   (define same-variable? eq?)
   
+  (define (reduce-poly p1 p2)
+    (if (same-variable? (variable p1) (variable p2))
+        (let ((reduced-terms (reduce (term-list p1) (term-list p2))))
+          (list (make-poly (variable p1) (car reduced-terms))
+                (make-poly (variable p2) (cadr reduced-terms))))
+        (error "Polys not in same var: REDUCE-POLY" (list p1 p2))))
+  
   (define (add-poly p1 p2)
     (if (same-variable? (variable p1) (variable p2))
         (make-poly (variable p1)
@@ -61,6 +68,9 @@
        (lambda (p1 p2) (div-poly p1 p2)))
   (put 'gcd '(poly poly)
        (lambda (p1 p2) (tag (gcd-poly p1 p2))))
+  (put 'reduce '(poly poly)
+       (lambda (p1 p2)
+         (map tag (reduce-poly p1 p2))))
   
   (put 'make 'poly
        (lambda (var terms) (tag (make-poly var terms)))))

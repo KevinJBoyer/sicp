@@ -10,6 +10,7 @@
 (define (gcd x y) (apply-generic 'gcd x y))
 (define (equ? x y) (apply-generic 'equ? x y))
 (define (=zero? x) (apply-generic '=zero? x))
+(define (reduce x y) (apply-generic 'reduce x y))
 
 ; todo: add tests for these
 (define (sine x) (apply-generic 'sine x))
@@ -28,3 +29,4 @@
 (#%provide cosine)
 (#%provide square-root)
 (#%provide atangen)
+(#%provide reduce)
