@@ -1,2 +1,3 @@
 *.scm~
 *compiled
+*.DS_STORE
