@@ -12,6 +12,7 @@
 (#%require "complex-package.scm")
 (#%require "sparse-terms.scm")
 (#%require "dense-terms.scm")
+(#%require "terms.scm")
 (#%require "poly-package.scm")
 
 (#%require "integer-package-tests.scm")
@@ -23,6 +24,6 @@
 (#%require "apply-generic-tests.scm")
 (#%require "coercion-tests.scm")
 (#%require "poly-package-tests.scm")
-
+(#%require "rational-polynomials-tests.scm")
 
 (display "done")

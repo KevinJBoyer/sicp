@@ -20,6 +20,9 @@
        (lambda (x y) (tag (make-int (* x y)))))
   (put 'div '(integer integer)
        (lambda (x y) (tag (make-int (/ x y)))))
+  (put 'gcd '(integer integer)
+       (lambda (x y) (gcd x y)))
+         ;(tag (make-int (gcd x y)))))
 
   (put 'equ? '(integer integer)
        (lambda (x y) (= x y)))

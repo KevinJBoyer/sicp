@@ -8,7 +8,7 @@
   (define imag-part cdr)
   (define make-from-real-imag cons)
   (define (magnitude z)
-    (sqrt (add (mul (real-part z) (real-part z))
+    (square-root (add (mul (real-part z) (real-part z))
                (mul (imag-part z) (imag-part z)))))
   (define (angle z)
     (atangen (imag-part z) (real-part z)))

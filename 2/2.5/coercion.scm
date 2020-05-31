@@ -2,6 +2,7 @@
 
 (#%require "type-table.scm")
 (#%require "apply-generic.scm")
+(#%require "arithmetic-system.scm")
 
 (#%require "integer-package.scm")
 (#%require "real-package.scm")
@@ -22,7 +23,11 @@
      (lambda (complex) (make-polynomial 'x (list (list 0 (cons 'complex complex))))))
 
 (put 'project '(rational)
-     (lambda (rat) (make-integer (round (/ (car rat) (cdr rat))))))
+     (lambda (rat)
+       (if (number? (car rat))
+           (make-integer (round (div (car rat) (cdr rat))))
+           -1
+       )))
 
 (put 'project '(real)
      (lambda (real) (make-rational (round (* 100 real)) 100)))

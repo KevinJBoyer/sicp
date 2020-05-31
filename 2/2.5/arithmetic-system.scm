@@ -7,6 +7,7 @@
 (define (sub x y) (apply-generic 'sub x y))
 (define (mul x y) (apply-generic 'mul x y))
 (define (div x y) (apply-generic 'div x y))
+(define (gcd x y) (apply-generic 'gcd x y))
 (define (equ? x y) (apply-generic 'equ? x y))
 (define (=zero? x) (apply-generic '=zero? x))
 
@@ -20,6 +21,7 @@
 (#%provide sub)
 (#%provide mul)
 (#%provide div)
+(#%provide gcd)
 (#%provide equ?)
 (#%provide =zero?)
 (#%provide sine)

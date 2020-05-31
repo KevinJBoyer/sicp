@@ -1,6 +1,7 @@
 #lang sicp
 
 (#%require "type-table.scm")
+(#%require "arithmetic-system.scm")
 
 (define (make-rational n d) ((get 'make 'rational) n d))
 
@@ -10,25 +11,25 @@
   (define denom cdr)
   (define (make-rat n d)
     (let ((g (gcd n d)))
-      (cons (/ n g) (/ d g))))
+      (cons (div n g) (div d g))))
 
   (define (add-rat x y)
-    (make-rat (+ (* (numer x) (denom y))
-                 (* (numer y) (denom x)))
-              (* (denom x) (denom y))))
-
+    (make-rat (add (mul (numer x) (denom y))
+                   (mul (numer y) (denom x)))
+              (mul (denom x) (denom y))))
+  
   (define (sub-rat x y)
-    (make-rat (- (* (numer x) (denom y))
-                 (* (numer y) (denom x)))
-              (* (denom x) (denom y))))
+    (make-rat (sub (mul (numer x) (denom y))
+                   (mul (numer y) (denom x)))
+              (mul (denom x) (denom y))))
 
   (define (mul-rat x y)
-    (make-rat (* (numer x) (numer y))
-              (* (denom x) (denom y))))
+    (make-rat (mul (numer x) (numer y))
+              (mul (denom x) (denom y))))
 
   (define (div-rat x y)
-    (make-rat (* (numer x) (denom y))
-              (* (denom x) (numer y))))
+    (make-rat (mul (numer x) (denom y))
+              (mul (denom x) (numer y))))
 
   (define (tag x) (attach-tag 'rational x))
 

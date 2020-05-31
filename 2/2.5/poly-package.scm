@@ -38,9 +38,14 @@
           (list (tag (make-poly (variable p1) (car resultant)))
                 (tag (make-poly (variable p1) (cadr resultant)))))
         (error "Polys not in same var: DIV-POLY" (list p1 p2))))
+
+  (define (gcd-poly p1 p2)
+    (if (same-variable? (variable p1) (variable p2))
+        (make-poly (variable p1)
+                   (gcd-terms (term-list p1) (term-list p2)))
+        (error "Polys not in same var: GCD-POLY" (list p1 p2))))
   
   (define (tag x) (attach-tag 'poly x))
-
 
   ; external
   (put '=zero? '(poly)
@@ -54,6 +59,8 @@
        (lambda (p1 p2) (tag (mul-poly p1 p2))))
   (put 'div '(poly poly)
        (lambda (p1 p2) (div-poly p1 p2)))
+  (put 'gcd '(poly poly)
+       (lambda (p1 p2) (tag (gcd-poly p1 p2))))
   
   (put 'make 'poly
        (lambda (var terms) (tag (make-poly var terms)))))
