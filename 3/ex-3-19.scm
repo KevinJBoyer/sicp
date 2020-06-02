@@ -1,18 +1,22 @@
 #lang sicp
 
-(define (has-cycle x)
-  (let ( (seen '()) )
-    (define (iter struct)
-      (if (null? struct)
-          false
-          (if (memq struct seen)
-              true
-              (begin
-                (set! seen (cons struct seen))
-                (iter (cdr struct))))))
-  (iter x)))
+(define (has-cycle? l)
+  (define (safe-cdr x)
+    (if (not (pair? x)) '() (cdr x)))
+  
+  (define (caught-up? tortoise hare)
+    (cond ((null? hare) false)
+          ((eq? tortoise hare) true)
+          (else (caught-up?
+                 (safe-cdr tortoise)
+                 (safe-cdr (safe-cdr hare))))))
 
-(has-cycle '(1 2 3))
-(define x '(1))
+  (caught-up? l (safe-cdr (safe-cdr l))))
+
+
+(has-cycle? (list '1 2 3 4))
+(define x (list '1 2 3 4))
 (set-cdr! x x)
-(has-cycle x)
+(has-cycle? x)
+        
+    
