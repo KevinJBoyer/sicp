@@ -81,9 +81,31 @@
 
 
 (define (add-streams s1 s2) (stream-map + s1 s2))
+(define (mul-streams s1 s2) (stream-map * s1 s2))
 
-(define s (cons-stream 1 (add-streams s s)))
-(stream-ref s 1)
-(stream-ref s 2)
-(stream-ref s 3)
-(stream-ref s 4)
+(define ones (cons-stream 1 ones))
+(define integers
+  (cons-stream 1 (add-streams ones integers)))
+
+
+(define factorials
+  (cons-stream 1 (mul-streams
+                  (stream-cdr integers)
+                  factorials
+                  )))
+
+(define (stream-print-first s n)
+  (if (> n 0)
+      (begin
+        (display-line (stream-car s))
+        (stream-print-first (stream-cdr s) (- n 1)))))
+
+;(stream-print-first factorials 5)
+
+
+(define (partial-sums s)
+  (cons-stream
+   (stream-car s)
+   (add-streams (partial-sums s) (stream-cdr s))))
+
+(stream-print-first (partial-sums integers) 5)

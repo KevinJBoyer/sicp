@@ -81,9 +81,61 @@
 
 
 (define (add-streams s1 s2) (stream-map + s1 s2))
+(define (mul-streams s1 s2) (stream-map * s1 s2))
 
-(define s (cons-stream 1 (add-streams s s)))
-(stream-ref s 1)
-(stream-ref s 2)
-(stream-ref s 3)
-(stream-ref s 4)
+(define ones (cons-stream 1 ones))
+(define integers
+  (cons-stream 1 (add-streams ones integers)))
+
+
+(define factorials
+  (cons-stream 1 (mul-streams
+                  (stream-cdr integers)
+                  factorials
+                  )))
+
+(define (stream-print-first s n)
+  (if (> n 0)
+      (begin
+        (display (stream-car s))
+        (display " ")
+        (stream-print-first (stream-cdr s) (- n 1)))))
+
+;(stream-print-first factorials 5)
+
+
+(define (partial-sums s)
+  (cons-stream
+   (stream-car s)
+   (add-streams (partial-sums s) (stream-cdr s))))
+
+
+(define (merge s1 s2)
+  (cond ((stream-null? s1) s2)
+        ((stream-null? s2) s1)
+        (else
+         (let ((s1car (stream-car s1))
+               (s2car (stream-car s2)))
+           (cond ((< s1car s2car)
+                  (cons-stream
+                   s1car
+                   (merge (stream-cdr s1) s2)))
+                 ((> s1car s2car)
+                  (cons-stream
+                   s2car
+                   (merge s1 (stream-cdr s2))))
+                 (else
+                  (cons-stream
+                   s1car
+                   (merge (stream-cdr s1)
+                          (stream-cdr s2)))))))))
+
+
+(define (scale-stream s n)
+(cons-stream
+  (* (stream-car s) n)
+  (scale-stream (stream-cdr s) n)))
+
+(define S (cons-stream 1 (merge (merge (scale-stream S 2) (scale-stream S 3)) (scale-stream S 5))))
+
+(stream-print-first S 25)
