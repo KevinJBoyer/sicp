@@ -307,4 +307,93 @@
     (= (* c c) (+ (* a a) (* b b))))) 
 
 (define pythagorean-triples (stream-filter is-pythagorean-triple? (triples integers integers integers)))
-(stream-print-first pythagorean-triples 5)
+;(stream-print-first pythagorean-triples 5)
+
+
+;;;
+
+(define (merge-weighted s1 s2 weight)
+  (cond ((stream-null? s1) s2)
+        ((stream-null? s2) s1)
+        (else
+         (let ((s1car (stream-car s1))
+               (s2car (stream-car s2)))
+           (cond ((< (weight s1car s2car) 0)
+                  (cons-stream
+                   s1car
+                   (merge-weighted (stream-cdr s1) s2 weight)))
+                 ((> (weight s1car s2car) 0)
+                  (cons-stream
+                   s2car
+                   (merge-weighted s1 (stream-cdr s2) weight)))
+                 (else
+                  (cons-stream
+                   s1car
+(cons-stream s2car
+                   (merge-weighted
+                    (stream-cdr s1)
+                    (stream-cdr s2)
+                    weight)))))))))
+
+(define (weight-by-sum s1-pair s2-pair)
+  (let ((s1-pair-sum (+ (car s1-pair) (cadr s1-pair)))
+        (s2-pair-sum (+ (car s2-pair) (cadr s2-pair))))
+    (cond ((< s1-pair-sum s2-pair-sum) -1)
+          ((> s1-pair-sum s2-pair-sum) 1)
+          (else 0))))
+
+(define (weight-by-weird-formula s1-pair s2-pair)
+  (define (pair-weight pair)
+    (+ (* 2 (car pair)) (* 3 (cadr pair)) (* 5 (car pair) (cadr pair))))
+  (let ((s1-pair-weight (pair-weight s1-pair))
+        (s2-pair-weight (pair-weight s2-pair)))
+    (cond ((< s1-pair-weight s2-pair-weight) -1)
+          ((> s1-pair-weight s2-pair-weight) 1)
+          (else 0))))
+
+
+; ex 3.70
+
+(define (weighted-pairs-i-less-j s t weight)
+  (cons-stream
+   (list (stream-car s) (stream-car t))
+   (merge-weighted
+    (stream-map (lambda (x) (list (stream-car s) x))
+                (stream-cdr t))
+    (pairs-i-less-j (stream-cdr s) (stream-cdr t))
+    weight
+    )))
+
+(define (weighted-pairs s t weight)
+  (cons-stream
+   (list (stream-car s) (stream-car t)) ; (1 1)
+   (merge-weighted
+    (stream-map (lambda (x) (list (stream-car s) x))
+                (stream-cdr t)) ; (1 2,3,4,5...)
+    (merge-weighted
+     (stream-map (lambda (x) (list x (stream-car t)))
+                 (stream-cdr s)) ; (2,3,4,5... 1)
+     (weighted-pairs (stream-cdr s) (stream-cdr t) weight) ; (2 2)...
+     weight)
+    weight)))
+
+;(stream-print-first (weighted-pairs-i-less-j integers integers weight-by-sum) 10)
+
+(define (not-divisible-by-2-3-5-num? num)
+  (not (or
+   (= 0 (remainder num 2))
+   (= 0 (remainder num 3))
+   (= 0 (remainder num 5)))))
+
+(define (not-divisible-by-2-3-5? pair)
+  (and
+   (not-divisible-by-2-3-5-num? (car pair))
+   (not-divisible-by-2-3-5-num? (cadr pair))))
+
+
+(stream-print-first
+ (stream-filter
+  not-divisible-by-2-3-5?
+  (weighted-pairs-i-less-j integers integers weight-by-weird-formula)
+  )
+ 10)
