@@ -415,6 +415,29 @@
     (stream-duplicates-helper (stream-cdr s) weight (stream-car s)))
 
 
-(define Ramanujan (stream-duplicate-pairs (weighted-pairs-i-less-j integers integers weight-by-sum-of-cubes) weight-by-sum-of-cubes))
 
-(stream-print-first Ramanujan 10)
+(define stream-sum-of-cubes (weighted-pairs-i-less-j integers integers weight-by-sum-of-cubes))
+(define Ramanujan (stream-duplicate-pairs stream-sum-of-cubes weight-by-sum-of-cubes))
+;(stream-print-first Ramanujan 10)
+
+
+(define (eq-weight? weight a b c)
+  (and (= 0 (weight a b))
+       (= 0 (weight b c))))
+
+(define (stream-triplicates s weight)
+  (let
+      ((scar (stream-car s))
+       (scadr (stream-car (stream-cdr s)))
+       (scaddr (stream-car (stream-cdr (stream-cdr s))))
+       (scdddr (stream-cdr (stream-cdr (stream-cdr s))))
+       )
+    
+    (if (eq-weight? weight scar scadr scaddr)
+        (cons-stream scar
+                     (cons-stream scadr
+                                  (cons-stream scaddr
+                                               (stream-triplicates scdddr weight))))
+        (stream-triplicates (stream-cdr s) weight))))
+
+(stream-print-first (stream-triplicates stream-sum-of-cubes weight-by-sum-of-cubes) 6)
