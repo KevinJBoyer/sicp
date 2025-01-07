@@ -214,36 +214,67 @@
     (stream-cdr requests))))
 
 ;;; ex 3.82
-(define random-init 5)
-
-(define rand
-  (let ((x random-init))
-    (lambda ()
-      (set! x (rand-update x))
-      x)))
-
-(define random-numbers
-  (cons-stream
-   random-init
-   (stream-map rand-update random-numbers)))
-
 (define (random-in-range low high)
   (let ((range (- high low)))
     (+ low (random range))))
 
-
-(define (monte-carlo experiment-stream passed failed)
-  (define (next passed failed)
-    (cons-stream
-     (/ passed (+ passed failed))
-     (monte-carlo
-      (stream-cdr experiment-stream) passed failed)))
-  (if (stream-car experiment-stream)
-      (next (+ passed 1) failed)
-      (next passed (+ failed 1))))
+(define (monte-carlo trials experiment)
+  (define (iter trials-remaining trials-passed)
+    (cond ((= trials-remaining 0) (/ trials-passed trials))
+          ((experiment) (iter (dec trials-remaining) (inc trials-passed)))
+          (else (iter (dec trials-remaining) trials-passed))))
+  (iter trials 0))
 
 (define (estimate-integral p x1 x2 y1 y2)
   (define (try-rand-point)
     (p (random-in-range x1 x2) (random-in-range y1 y2)))
   (* (* (- x2 x1) (- y2 y1))
-     (monte-carlo try-rand-point 0 0)))
+     (monte-carlo 10000 try-rand-point)))
+
+
+(define (point-in-unit-circle? x y)
+  (>= (* .5 .5)
+      (+ (* (- x .5) (- x .5))
+         (* (- y .5) (- y .5)))))
+
+; approximate pi -- this and the code above is from my solution to 3.5
+(/ 
+ (estimate-integral point-in-unit-circle? 0.0 1.0 0.0 1.0)
+ (* .5 .5))
+
+
+; Now do it in a stream...
+(define (random-in-range-stream x1 x2)
+  (cons-stream (random-in-range x1 x2)
+               (random-in-range-stream x1 x2)))
+
+ ;(stream-print-first (random-in-range-stream 0 10) 100)
+
+(define (monte-carlo-stream experiment-stream passed failed)
+  (define (next passed failed)
+    (cons-stream
+     (/ passed (+ passed failed))
+     (monte-carlo-stream
+      (stream-cdr experiment-stream) passed failed)))
+  (if (stream-car experiment-stream)
+      (next (+ passed 1) failed)
+      (next passed (+ failed 1))))
+
+(define (estimate-integral-stream p x1 x2 y1 y2)
+  (cons-stream
+   (p (random-in-range x1 x2) (random-in-range y1 y2))
+   (estimate-integral-stream p x1 x2 y1 y2)
+   ))
+   
+
+;(define (try-rand-point-stream)
+;  (stream-map p 
+   
+; approximate pi from stream
+(define pi
+  (stream-map
+   (lambda (p) (/ p (* .5 .5)))
+   (monte-carlo-stream (estimate-integral-stream point-in-unit-circle? 0.0 1.0 0.0 1.0) 0 0)))
+
+
+(stream-ref pi 10000)
